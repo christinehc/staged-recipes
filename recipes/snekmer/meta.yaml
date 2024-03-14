@@ -1,0 +1,56 @@
+{% set name = "snekmer" %}
+{% set version = "1.2.0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/snekmer-{{ version }}.tar.gz
+  sha256: f84583c9c55dd19eb8ef3daa151f0b4188606519c3595cc16d2e10fed6f32848
+
+build:
+  entry_points:
+    - snekmer = snekmer.cli:main
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 0
+
+requirements:
+  host:
+    - python >=3.8
+    - setuptools >=61.0
+    - pip
+  run:
+    - python >=3.8
+    - biopython
+    - matplotlib-base
+    - numpy ==1.22.3
+    - numba >=0.56
+    - pandas ==1.4.2
+    - seaborn
+    - scipy
+    - scikit-learn
+    - bioconda::snakemake ==7.0
+    - tabulate ==0.8.10
+    - umap-learn
+    - hdbscan
+    - pyarrow
+
+test:
+  imports:
+    - snekmer
+  commands:
+    - snekmer --help
+
+about:
+  summary: A computational pipeline enabling functional annotation using amino acid recoding.
+  license: BSD-3-Clause
+  license_family: BSD
+  license_file: LICENSE
+  doc_url: https://snekmer.readthedocs.io/
+  dev_url: https://github.com/PNNL-CompBio/Snekmer
+
+extra:
+  recipe-maintainers:
+    - christinehc
